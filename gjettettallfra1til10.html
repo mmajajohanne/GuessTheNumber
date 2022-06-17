@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title> Gjette tall spill </title>
+    <style>
+         body {
+             background-color: rgb(226, 244, 248);
+             text-align: center;
+             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+         }
+         .Space {
+             display: flex;
+             height: 200px;
+         }
+         .MindreSpace {
+             display: flex;
+             height: 25px;
+         }
+         .EndaMindreSpace {
+             display: flex;
+             height: 10px;
+         }
+         .idListe {
+             display: flex;
+             justify-content: left;
+             width: 700px;
+         }
+         input{
+             background-color: rgb(234, 245, 239);
+         }
+         button {
+             background-color: rgb(187, 240, 240);
+         }
+         .flexbox {
+             display: flex;
+             flex-direction: row;
+             justify-content: space-evenly;
+         }
+    </style>
+</head>
+<body>
+    <div class="Space">
+    </div>
+    <h1> Gjett tallet! </h1>
+    <div id="idListe">
+        <p> Klikk for å hente tall: </p>
+        <button id="idKnapp1"> tall 1-10 </button>
+        <button id="idKnapp2"> tall 1-100 </button>
+        <button id="idKnapp3"> tall 1-1000 </button> <br> 
+    </div>
+    <div class="EndaMindreSpace">
+    </div>
+    <p id="idOppgave"> &nbsp;</p>
+    <div class="MindreSpace"> 
+    </div> <br> 
+    <input id="idInput"> 
+    <p id="idTilbakemelding">&nbsp;</p>
+    <p id="idForsøk">&nbsp;</p>
+
+
+
+
+    <script>
+
+        let nivå1 = document.getElementById("idKnapp1");
+        let nivå2 = document.getElementById("idKnapp2");
+        let nivå3 = document.getElementById("idKnapp3");
+
+        let tilbakeEl = document.getElementById("idTilbakemelding");
+        let oppgaveEl = document.getElementById("idOppgave");
+        let inputEl = document.getElementById("idInput");
+        let forsøkEl = document.getElementById("idForsøk");
+        
+        //nivå1.addEventListener("mousedown", fargefunkk(nivå1, nivå2, nivå3));
+        nivå1.addEventListener("mousedown", fargefunk1)
+        nivå2.addEventListener("mousedown", fargefunk2)
+        nivå3.addEventListener("mousedown", fargefunk3)
+        inputEl.disabled = true;
+
+        /*function fargefunkk(event, x, y, z ){
+            x.style.backgroundColor = "rgb(119, 172, 172)";
+            y.disabled = true;
+            z.disabled = true;
+        }*/
+
+        inputEl.addEventListener("mousedown", klikkfunk)
+        function klikkfunk(event) {
+            inputEl.value = ""
+        }
+        function fargefunk1(event) {
+            nivå1.style.backgroundColor ="rgb(119, 172, 172)";
+            nivå2.disabled = true
+            nivå3.disabled = true
+        }
+        function fargefunk2(event){
+            nivå2.style.backgroundColor = "rgb(119, 172, 172)";
+            nivå1.disabled = true
+            nivå3.disabled = true
+        }
+        function fargefunk3(event){
+            nivå3.style.backgroundColor = "rgb(119, 172, 172)"
+            nivå2.disabled = true
+            nivå1.disabled = true
+        }
+
+        let i;
+        let r;
+        nivå1.addEventListener("mousedown", nivå1funk);
+        function nivå1funk(event) {
+            let i = Math.floor(Math.random() * 10) + 1;    //+1 gjør at det ikke blir 0
+            console.log(i);
+            inputEl.disabled = false
+            r = i
+            oppgaveEl.innerHTML = "Gjett et tall fra 1-10!"
+            tilbakeEl.innerHTML = ""
+            inputEl.value = ""
+          
+            
+        };
+        nivå2.addEventListener("mousedown", nivå2funk);
+        function nivå2funk(event){
+            let i = Math.floor(Math.random()*100)+1;
+            console.log(i);
+            inputEl.disabled = false
+            r = i
+            oppgaveEl.innerHTML = "Gjett et tall fra 1-100!"
+            tilbakeEl.innerHTML = ""
+            inputEl.value = ""
+            
+        };
+        nivå3.addEventListener("mousedown", nivå3funk);
+        function nivå3funk(event){
+            let i = Math.floor(Math.random()*1000)+1;
+            console.log(i);
+            inputEl.disabled = false
+            r = i
+            oppgaveEl.innerHTML = "Gjett et tall fra 1-1000!"
+            tilbakeEl.innerHTML = ""
+            inputEl.value = ""
+            
+        };
+        
+
+        inputEl.addEventListener("keydown", svarfunk);
+        function svarfunk(event){
+                if (event.keyCode === 13  & Number(inputEl.value < 1000)){
+                    if (Number(inputEl.value) === r){
+                        tilbakeEl.innerHTML = "Bra jobba! Du gjettet riktig tall! Tallet var " + r;
+                        inputEl.disabled = true
+                        nivå1.style.backgroundColor = "rgb(187, 240, 240)";
+                        nivå2.style.backgroundColor = "rgb(187, 240, 240)";
+                        nivå3.style.backgroundColor = "rgb(187, 240, 240)";
+                        nivå1.disabled = false;
+                        nivå2.disabled = false;
+                        nivå3.disabled = false;
+                    }
+                    else if (Number(inputEl.value)> r){
+                        tilbakeEl.innerHTML = "Du gjettet feil tall! Prøv igjen med et lavere tall!"
+                    }
+                    else{
+                        tilbakeEl.innerHTML = "Du gjettet feil tall! Prøv igjen med et høyere tall!";
+                        inputEl.value = " ";
+                    };
+                }
+                else{
+                    if (inputEl.value !== "" & isNaN(inputEl.value)== true || inputEl.value == " ") {
+                        tilbakeEl.innerHTML = "Du må skrive inn et tall, prøv igjen!";
+                        inputEl.value = " ";
+                        if (event.keyCode === 13 & inputEl.value === Number){
+                            tilbakeEl.innerHTML = " "
+                        if (Number(inputEl.value) === r){
+                            tilbakeEl.innerHTML = "Bra jobba! Du gjettet riktig tall! Tallet var " + r;
+                            inputEl.disabled = true
+                            nivå1.style.backgroundColor = "rgb(187, 240, 240)";
+                            nivå1.disabled = false
+                            nivå2.disabled = false
+                        }
+                        else if (Number(inputEl.value)> r){
+                            tilbakeEl.innerHTML = "Du gjettet feil tall! Prøv igjen med et lavere tall!"
+                        }
+                        else{
+                            tilbakeEl.innerHTML = "Du gjettet feil tall! Prøv igjen med et høyere tall!";
+                            inputEl.value = " ";
+                        };
+            
+            };
+    };
+};
+        };
+
+        /*function svarfunk(event){
+            do {
+                let antallForsøk = []
+                if (event.keyCode === 13){
+                    antallForsøk.push(1);
+                    forsøkEl.innerHTML = "Antall forsøk: " + (antallForsøk.length);
+                    console.log(antallForsøk);
+
+                    if (Number(inputEl.value) === i){
+                        tilbakeEl.innerHTML = "Bra jobba! Du gjettet riktig tall! Tallet var " + i;
+                        inputEl.disabled = true
+                    }
+                    else{
+                        tilbakeEl.innerHTML = "Du gjettet feil tall! Prøv igjen!";
+                    };
+                };
+            }
+            while (Number(inputEl.value) !== i);
+        };*/
+    </script>
+</body>
+</html>
